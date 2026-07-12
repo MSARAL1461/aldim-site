@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ALDIM — Yeni Nesil Mezat</title>
+<meta name="description" content="ALDIM: yeni nesil mezat uygulaması. Süreli mezatlar, tek dokunuşla 'Aldım' de, güvenli ödeme. Dakika dolmadan, Aldım de!">
+<link rel="icon" type="image/png" href="logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700;800&family=Nunito+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --turuncu:#FF8A00;
+    --turuncu-koyu:#E67A00;
+    --zemin:#FFF8F0;
+    --metin:#1F2937;
+    --metin-soluk:#6B7280;
+    --beyaz:#FFFFFF;
+    --kart-golge:0 10px 30px rgba(255,138,0,.12);
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{font-family:'Nunito Sans',system-ui,sans-serif;color:var(--metin);background:var(--zemin);line-height:1.6}
+  h1,h2,h3{font-family:'Rubik',sans-serif;line-height:1.25}
+  a{color:var(--turuncu)}
+  .kap{max-width:1080px;margin:0 auto;padding:0 20px}
+
+  /* Üst çubuk */
+  header{background:var(--beyaz);border-bottom:1px solid #F3E8DA;position:sticky;top:0;z-index:50}
+  .ust{display:flex;align-items:center;justify-content:space-between;height:68px}
+  .marka{display:flex;align-items:center;gap:10px;font-family:'Rubik',sans-serif;font-weight:800;font-size:22px;color:var(--metin);text-decoration:none}
+  .marka img{width:40px;height:40px;border-radius:10px;object-fit:contain}
+  nav a{color:var(--metin-soluk);text-decoration:none;margin-left:22px;font-weight:600;font-size:15px;transition:color .2s}
+  nav a:hover,nav a:focus{color:var(--turuncu)}
+  @media(max-width:640px){nav{display:none}}
+
+  /* Kahraman bölümü */
+  .hero{padding:64px 0 56px;background:
+    linear-gradient(160deg, #FF8A00 0%, #FFA733 55%, #FFC46B 100%);color:#fff}
+  .hero-ic{display:grid;grid-template-columns:1.15fr .85fr;gap:36px;align-items:center}
+  @media(max-width:820px){.hero-ic{grid-template-columns:1fr;text-align:center}}
+  .hero img.logo{width:88px;height:88px;border-radius:22px;background:#fff;padding:8px;
+    box-shadow:0 12px 32px rgba(0,0,0,.18);margin-bottom:22px}
+  .hero h1{font-size:clamp(34px,5.5vw,58px);font-weight:800;margin-bottom:6px;color:#fff;letter-spacing:2px}
+  .hero h1 span{color:#4A1D00;font-size:.55em;display:block;letter-spacing:1px;font-weight:700}
+  .hero .slogan{font-size:clamp(17px,2.6vw,22px);font-weight:700;color:#FFF3E0;margin:10px 0 14px;font-family:'Rubik',sans-serif}
+  .hero p.alt{font-size:clamp(16px,2.4vw,20px);color:rgba(255,255,255,.92);max-width:560px;margin-bottom:34px}
+  @media(max-width:820px){.hero p.alt{margin-left:auto;margin-right:auto}}
+  /* Telefon çerçevesi */
+  .telefon{justify-self:center;width:min(280px,80vw);border-radius:36px;border:10px solid #2b2118;
+    box-shadow:0 30px 60px rgba(0,0,0,.35);overflow:hidden;background:#000}
+  .telefon img{display:block;width:100%;height:auto}
+
+  /* İndirme butonları */
+  .butonlar{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+  .magaza{display:flex;align-items:center;gap:12px;background:#111827;color:#fff;text-decoration:none;
+    padding:12px 22px;border-radius:14px;min-height:56px;min-width:190px;justify-content:flex-start;
+    transition:transform .2s,box-shadow .2s;cursor:pointer;position:relative}
+  .magaza:hover,.magaza:focus{transform:translateY(-2px);box-shadow:0 8px 22px rgba(0,0,0,.25)}
+  .magaza svg{width:28px;height:28px;flex-shrink:0}
+  .magaza .yazi{text-align:left;line-height:1.15}
+  .magaza .yazi small{display:block;font-size:11px;opacity:.75;font-weight:400}
+  .magaza .yazi strong{font-size:17px;font-family:'Rubik',sans-serif}
+  .magaza.apk{background:#fff;color:#E67A00}
+  .magaza.apk:hover,.magaza.apk:focus{box-shadow:0 8px 22px rgba(0,0,0,.25)}
+  @media(max-width:820px){.butonlar{justify-content:center}}
+  .rozet{position:absolute;top:-10px;right:-6px;background:#DC2626;color:#fff;font-size:10px;
+    font-weight:700;padding:2px 8px;border-radius:99px;letter-spacing:.4px}
+  .not{font-size:13px;color:var(--metin-soluk);margin-top:18px}
+
+  /* Özellikler */
+  section{padding:64px 0}
+  .baslik{text-align:center;font-size:clamp(24px,3.6vw,34px);font-weight:800;margin-bottom:40px}
+  .baslik em{color:var(--turuncu);font-style:normal}
+  .kartlar{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:20px}
+  .kart{background:var(--beyaz);border-radius:20px;padding:28px 24px;box-shadow:var(--kart-golge);
+    transition:transform .2s}
+  .kart:hover{transform:translateY(-4px)}
+  .kart .ikon{width:52px;height:52px;border-radius:14px;background:rgba(255,138,0,.12);
+    display:flex;align-items:center;justify-content:center;margin-bottom:16px}
+  .kart .ikon svg{width:26px;height:26px;stroke:var(--turuncu)}
+  .kart h3{font-size:18px;margin-bottom:8px}
+  .kart p{font-size:14.5px;color:var(--metin-soluk)}
+
+  /* Nasıl çalışır */
+  .adimlar{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px;counter-reset:adim}
+  .adim{background:var(--beyaz);border-radius:20px;padding:26px 22px;box-shadow:var(--kart-golge);position:relative}
+  .adim::before{counter-increment:adim;content:counter(adim);position:absolute;top:-14px;left:22px;
+    width:32px;height:32px;border-radius:99px;background:var(--turuncu);color:#fff;font-weight:800;
+    display:flex;align-items:center;justify-content:center;font-family:'Rubik',sans-serif}
+  .adim h3{font-size:16.5px;margin:8px 0 6px}
+  .adim p{font-size:14px;color:var(--metin-soluk)}
+
+  /* Yasal bölümler */
+  .yasal{background:var(--beyaz)}
+  .yasal .blok{max-width:820px;margin:0 auto 36px}
+  .yasal h2{font-size:22px;margin-bottom:12px;padding-bottom:8px;border-bottom:2px solid rgba(255,138,0,.25)}
+  .yasal p,.yasal li{font-size:14.5px;color:var(--metin-soluk);margin-bottom:8px}
+  .yasal ul{padding-left:20px}
+
+  /* Alt bilgi */
+  footer{background:#1F2937;color:#D1D5DB;padding:36px 0;text-align:center;font-size:14px}
+  footer a{color:#FDBA74;text-decoration:none}
+  footer .satir{margin-bottom:8px}
+
+  :focus-visible{outline:3px solid var(--turuncu);outline-offset:2px;border-radius:6px}
+  @media (prefers-reduced-motion: reduce){
+    *{transition:none!important;animation:none!important}
+    html{scroll-behavior:auto}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="kap ust">
+    <a class="marka" href="#"><img src="logo.png" alt="Aldım App logosu">Aldım App</a>
+    <nav aria-label="Site menüsü">
+      <a href="#ozellikler">Özellikler</a>
+      <a href="#nasil">Nasıl Çalışır?</a>
+      <a href="#indir">İndir</a>
+      <a href="#iletisim">İletişim</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <!-- KAHRAMAN -->
+  <div class="hero" id="indir">
+    <div class="kap hero-ic">
+      <div>
+      <img class="logo" src="logo.png" alt="Aldım App logosu">
+      <h1>ALDIM<br><span>Yeni Nesil Mezat</span></h1>
+      <p class="slogan">Dakika Dolmadan, Aldım De!</p>
+      <p class="alt">Satıcılar ürünlerini süreli mezata çıkarır; sen beğendiğini tek dokunuşla,
+      "Aldım" diyerek anında satın alırsın. Pratik, hızlı ve güvenli alışveriş.</p>
+
+      <div class="butonlar">
+        <a class="magaza" href="#" aria-label="Google Play'den indir (yakında)">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 3.5v17c0 .6.7 1 1.2.7l14.4-8.5c.5-.3.5-1 0-1.3L5.2 2.8C4.7 2.5 4 2.9 4 3.5z" fill="#34D399"/><path d="M4 3.5v17c0 .3.2.6.4.7L13 12 4.4 2.8c-.2.1-.4.4-.4.7z" fill="#60A5FA"/><path d="M16.5 9.6 5.2 2.8c-.3-.2-.6-.2-.8 0L13 12l3.5-2.4z" fill="#FBBF24"/><path d="M13 12 4.4 21.2c.2.2.5.2.8 0l11.3-6.8L13 12z" fill="#F87171"/></svg>
+          <span class="yazi"><small>Google Play</small><strong>Yakında</strong></span>
+          <span class="rozet">YAKINDA</span>
+        </a>
+        <a class="magaza" href="#" aria-label="App Store'dan indir (yakında)">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.05 12.54c-.03-2.9 2.37-4.29 2.48-4.36-1.35-1.97-3.45-2.24-4.2-2.27-1.79-.18-3.49 1.05-4.4 1.05-.9 0-2.3-1.03-3.79-1-1.95.03-3.75 1.13-4.75 2.88-2.03 3.52-.52 8.72 1.46 11.58.97 1.4 2.12 2.97 3.63 2.91 1.46-.06 2.01-.94 3.77-.94s2.26.94 3.8.91c1.57-.03 2.57-1.42 3.53-2.83 1.11-1.62 1.57-3.19 1.6-3.27-.04-.02-3.07-1.18-3.13-4.66zM14.16 4.02c.8-.97 1.34-2.32 1.19-3.67-1.15.05-2.55.77-3.38 1.74-.74.85-1.39 2.23-1.22 3.55 1.29.1 2.6-.65 3.41-1.62z"/></svg>
+          <span class="yazi"><small>App Store</small><strong>Yakında</strong></span>
+          <span class="rozet">YAKINDA</span>
+        </a>
+        <a class="magaza apk" href="https://github.com/MSARAL1461/aldim-site/releases/download/v1.0/AldimApp.apk" aria-label="Android APK dosyasını indir">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg>
+          <span class="yazi"><small>Android için</small><strong>APK İndir</strong></span>
+        </a>
+      </div>
+      <p class="not" style="color:rgba(255,255,255,.85)">APK'yı kurmak için telefonunuzda "bilinmeyen kaynaklara izin ver" seçeneğini onaylamanız gerekebilir.</p>
+      </div>
+      <div class="telefon">
+        <img src="uygulama-ekran.jpg" alt="Aldım App ana sayfa ekran görüntüsü">
+      </div>
+    </div>
+  </div>
+
+  <!-- ÖZELLİKLER -->
+  <section id="ozellikler">
+    <div class="kap">
+      <h2 class="baslik">Neden <em>Aldım App</em>?</h2>
+      <div class="kartlar">
+        <div class="kart">
+          <div class="ikon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 10l4.55-2.27A1 1 0 0 1 21 8.62v6.76a1 1 0 0 1-1.45.89L15 14"/><rect x="3" y="6" width="12" height="12" rx="2"/></svg></div>
+          <h3>Tek Dokunuş: "Aldım"</h3>
+          <p>Adres ve ödeme bilgilerin hazır; beğendiğin ürünü tek tıkla, "Aldım" diyerek anında satın alırsın.</p>
+        </div>
+        <div class="kart">
+          <div class="ikon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></div>
+          <h3>Süreli Mezat Çarkları</h3>
+          <p>Her satıcının 4 mezat slotu var: 5 dakikalık, 1 saatlik, günlük ve haftalık. Süre dolunca ürün yayından kalkar — fırsatı gören kapar.</p>
+        </div>
+        <div class="kart">
+          <div class="ikon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg></div>
+          <h3>Güvenli Ödeme</h3>
+          <p>Ödemen, ürün sana teslim edilene kadar güvence altında tutulur. Önden havale yok, güven sorunu yok.</p>
+        </div>
+        <div class="kart">
+          <div class="ikon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
+          <h3>Canlı Yayında Mezat</h3>
+          <p>Satıcılar ürünlerini canlı yayında gösterir; mağaza puanları ve yorumlarla kimden aldığını bilirsin. Dağınık sosyal medya satışlarına düzen gelir.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- NASIL ÇALIŞIR -->
+  <section id="nasil">
+    <div class="kap">
+      <h2 class="baslik">Nasıl <em>çalışır?</em></h2>
+      <div class="adimlar">
+        <div class="adim"><h3>Satıcı ürünü yükler</h3><p>Görseller, adet ve beden bilgisi önceden girilir; alıcı her şeye anında ulaşır, satıcı aynı soruları tekrar tekrar cevaplamaz.</p></div>
+        <div class="adim"><h3>Mezat süresi başlar</h3><p>Ürün 5 dakikalık, 1 saatlik, günlük veya haftalık slotta satışa çıkar. Süre dolunca otomatik yayından kalkar.</p></div>
+        <div class="adim"><h3>"Aldım" de, bitti</h3><p>Kayıtlı adres ve ödeme bilgilerinle tek dokunuşta satın al. Ödemen ürün eline ulaşana kadar güvencede.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- YASAL -->
+  <section class="yasal" id="iletisim">
+    <div class="kap">
+      <div class="blok">
+        <h2>Hakkımızda</h2>
+        <p>Aldım, sosyal medyadaki dağınık ve güvensiz canlı yayın satışlarına düzen getiren, Türkiye merkezli
+        yeni nesil mezat platformudur. Satıcılar ürünlerini süreli mezatlara çıkarır; alıcılar tek dokunuşla,
+        "Aldım" diyerek güvenle satın alır. Zamanlı, hızlı, düzenli, kolay ve güvenli alışveriş — farkımız bu.</p>
+        <p>Türkiye'de sosyal ticaret hızla büyüyor; Aldım, canlı mezat yapan binlerce satıcıyı ve milyonlarca
+        izleyiciyi tek bir güvenli çatı altında buluşturmayı hedefliyor.</p>
+      </div>
+      <div class="blok">
+        <h2>Ekibimiz</h2>
+        <ul>
+          <li><strong>Enis Ulaş Helvacı</strong> — Kurucu &amp; Ürün Sahibi: fikrin yaratıcısı, proje vizyonu ve yönetimi</li>
+          <li><strong>Kerem Dorukoğlu</strong> — Kurucu Ortak &amp; İletişim Sorumlusu: satıcı bağlantıları, pazarlama ve iş ağı</li>
+          <li><strong>Cem Gencel</strong> — UI/UX Tasarımcısı: uygulamanın kullanıcı arayüzü ve deneyimi</li>
+        </ul>
+      </div>
+      <div class="blok">
+        <h2>İletişim</h2>
+        <p>Her türlü soru, öneri ve destek talebiniz için bize ulaşabilirsiniz:</p>
+        <ul>
+          <li>E-posta: <a href="mailto:enisulashelvaci@gmail.com">enisulashelvaci@gmail.com</a></li>
+          <li>Telefon: <a href="tel:+905357128342">+90 (535) 712 83 42</a></li>
+        </ul>
+      </div>
+      <div class="blok">
+        <h2>Teslimat ve İade Koşulları</h2>
+        <p>Siparişleriniz, satıcı tarafından anlaşmalı kargo firmaları aracılığıyla adresinize gönderilir.
+        Teslimat süresi, satıcının bulunduğu konuma göre genellikle 1-5 iş günüdür.</p>
+        <p>6502 sayılı Tüketicinin Korunması Hakkında Kanun ve Mesafeli Sözleşmeler Yönetmeliği uyarınca,
+        teslim tarihinden itibaren 14 gün içinde cayma hakkınızı kullanarak ürünü iade edebilirsiniz.
+        İade talebinizi uygulama içinden veya e-posta yoluyla iletebilirsiniz. İade edilen ürün bedeli,
+        ürünün satıcıya ulaşmasının ardından ödeme yönteminize iade edilir.</p>
+      </div>
+      <div class="blok">
+        <h2>Gizlilik ve KVKK</h2>
+        <p>Kişisel verileriniz, 6698 sayılı Kişisel Verilerin Korunması Kanunu ("KVKK") kapsamında;
+        üyelik hesabınızın oluşturulması, siparişlerinizin işlenmesi, teslimat süreçlerinin yürütülmesi ve
+        yasal yükümlülüklerin yerine getirilmesi amaçlarıyla sınırlı olarak işlenir.</p>
+        <p>Verileriniz; kargo şirketleri, ödeme kuruluşları ve barındırma hizmeti sağlayıcılarıyla yalnızca
+        hizmetin gerektirdiği ölçüde paylaşılır, üçüncü kişilere satılmaz. KVKK m.11 kapsamındaki haklarınızı
+        (bilgi talep etme, düzeltme, silme vb.) yukarıdaki iletişim adresi üzerinden kullanabilirsiniz.</p>
+      </div>
+      <div class="blok">
+        <h2>Mesafeli Satış Sözleşmesi</h2>
+        <p>Uygulama üzerinden verilen tüm siparişler, sipariş onayı öncesinde alıcıya sunulan mesafeli satış
+        sözleşmesine tabidir. Sözleşme; satıcı ve alıcı bilgilerini, ürünün temel nitelikleri ile vergiler dahil
+        toplam fiyatını, ödeme ve teslimat bilgilerini ve cayma hakkına ilişkin koşulları içerir.
+        Ödemeler, lisanslı ödeme kuruluşu aracılığıyla güvenli şekilde alınır; kart bilgileriniz uygulamada saklanmaz.</p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="kap">
+    <img src="logo.png" alt="Aldım App logosu" style="width:52px;height:52px;border-radius:12px;background:#fff;padding:5px;margin-bottom:12px">
+    <div class="satir"><strong>ALDIM</strong> — Yeni Nesil Mezat · Dakika Dolmadan, Aldım De!</div>
+    <div class="satir"><a href="mailto:enisulashelvaci@gmail.com">enisulashelvaci@gmail.com</a> · <a href="tel:+905357128342">+90 (535) 712 83 42</a></div>
+    <div class="satir">© 2026 Aldım App. Tüm hakları saklıdır.</div>
+  </div>
+</footer>
+
+</body>
+</html>
