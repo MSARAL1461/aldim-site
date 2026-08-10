@@ -1,0 +1,62 @@
+/* ALDIM — yasal sayfalar. Ana sitedeki dil ve renklerle ayni. */
+:root{--o:#FF8A00;--ok:#E67A00;--koyu:#16130F;--krem:#FFF7EE;--beyaz:#fff}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'Rubik',system-ui,sans-serif;color:var(--koyu);background:var(--beyaz);line-height:1.6}
+img{max-width:100%}
+.kap{max-width:1120px;margin:0 auto;padding:0 24px}
+
+header{position:sticky;top:0;z-index:99;background:rgba(255,255,255,.92);backdrop-filter:blur(10px);border-bottom:1px solid #00000010}
+.ust{display:flex;align-items:center;justify-content:space-between;height:72px}
+.marka{display:flex;align-items:center;gap:12px;font-weight:900;font-size:24px;color:var(--koyu);text-decoration:none;letter-spacing:.5px}
+.marka img{width:44px;height:44px;border-radius:12px}
+nav{display:flex;gap:6px;align-items:center}
+nav a{color:var(--koyu);text-decoration:none;font-weight:600;font-size:15px;padding:10px 18px;border-radius:99px;transition:background .2s}
+nav a:hover{background:#00000008}
+nav a.cta{background:var(--koyu);color:#fff}
+@media(max-width:760px){nav a:not(.cta){display:none}}
+
+.bas{background:var(--o);color:#fff;padding:56px 0 44px;text-align:center}
+.bas h1{font-size:clamp(28px,5vw,52px);font-weight:900;line-height:1.1;letter-spacing:-.5px;max-width:900px;margin:0 auto}
+.bas p{color:#FFF3E0;font-size:16px;margin-top:14px}
+
+.iz{font-size:14px;color:#8a8178;padding:22px 0 0}
+.iz a{color:var(--ok);text-decoration:none;font-weight:600}
+.iz a:hover{text-decoration:underline}
+
+main{padding-bottom:80px}
+
+/* Dizin */
+.kat{margin-top:44px}
+.kat h2{font-size:14px;font-weight:800;letter-spacing:1.2px;text-transform:uppercase;color:var(--ok);margin-bottom:16px}
+.liste{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px}
+.liste a{display:flex;align-items:center;justify-content:space-between;gap:14px;background:var(--krem);border-radius:18px;padding:20px 24px;text-decoration:none;color:var(--koyu);font-weight:700;font-size:15.5px;transition:transform .2s,background .2s}
+.liste a:hover{transform:translateY(-3px);background:#FFEEDB}
+.liste span{color:var(--o);font-size:20px;line-height:1}
+
+/* Belge metni */
+.belge{max-width:820px;margin:0 auto;background:var(--krem);border-radius:28px;padding:44px 48px;margin-top:34px}
+.belge h2{font-size:18px;font-weight:800;color:var(--ok);margin:32px 0 12px;line-height:1.35}
+.belge h2:first-child{margin-top:0}
+.belge p{font-size:15px;color:#5f584e;margin-bottom:10px}
+.belge p.alt{padding-left:16px;border-left:2px solid #E8DCCB}
+.belge ul{margin:0 0 14px 4px;padding-left:22px}
+.belge li{font-size:15px;color:#5f584e;margin-bottom:5px}
+@media(max-width:640px){.belge{padding:30px 22px;border-radius:20px}}
+
+.uyari{max-width:820px;margin:26px auto 0;background:#FFF4E3;border:1px solid #FFD9A6;border-radius:18px;padding:18px 24px;font-size:14px;color:#7a5c2e}
+
+/* Onceki / sonraki */
+.gezin{max-width:820px;margin:28px auto 0;display:flex;gap:14px;flex-wrap:wrap}
+.gezin a{flex:1 1 240px;background:#fff;border:1px solid #00000012;border-radius:18px;padding:16px 22px;text-decoration:none;color:var(--koyu);font-weight:700;font-size:14.5px;transition:background .2s}
+.gezin a:hover{background:var(--krem)}
+.gezin small{display:block;font-size:12px;font-weight:500;color:#8a8178;margin-bottom:4px}
+
+footer{background:var(--koyu);color:#bdb4a8;padding:56px 0;text-align:center}
+footer img{width:64px;height:64px;border-radius:16px;margin-bottom:14px}
+footer .m{font-size:26px;font-weight:900;color:#fff;letter-spacing:1px;margin-bottom:6px}
+footer a{color:var(--o);text-decoration:none;font-weight:600}
+footer .ince{font-size:13px;margin-top:14px}
+
+:focus-visible{outline:3px solid var(--koyu);outline-offset:2px;border-radius:8px}
+@media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}html{scroll-behavior:auto}}
