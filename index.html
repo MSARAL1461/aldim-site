@@ -22,10 +22,14 @@ header{position:sticky;top:0;z-index:99;background:rgba(255,255,255,.92);backdro
 .marka{display:flex;align-items:center;gap:12px;font-weight:900;font-size:24px;color:var(--koyu);text-decoration:none;letter-spacing:.5px}
 .marka img{width:44px;height:44px;border-radius:12px}
 nav{display:flex;gap:6px;align-items:center}
-nav a{color:var(--koyu);text-decoration:none;font-weight:600;font-size:15px;padding:10px 18px;border-radius:99px;transition:background .2s}
+.marka{flex:0 0 auto}
+nav a{color:var(--koyu);text-decoration:none;font-weight:600;font-size:15px;padding:10px 18px;border-radius:99px;transition:background .2s;white-space:nowrap}
 nav a:hover{background:#00000008}
 nav a.cta{background:var(--koyu);color:#fff}
 nav a.cta:hover{background:#000}
+@media(max-width:1400px){nav{gap:2px}nav a{padding:10px 11px;font-size:14px}}
+@media(max-width:1200px){nav a[href="#diller"],nav a[href="#kimlere"]{display:none}}
+@media(max-width:1000px){nav a[href="#nasil"],nav a[href="#adalet"]{display:none}}
 @media(max-width:760px){nav a:not(.cta){display:none}}
 
 /* KAHRAMAN — Snapchat tarzı tek renk, dev tipografi */
@@ -52,8 +56,60 @@ nav a.cta:hover{background:#000}
 
 /* Telefon mockup */
 .tel-sahne{display:flex;justify-content:center;margin-top:8px}
-.telefon{width:min(300px,78vw);border-radius:40px 40px 0 0;border:12px solid var(--koyu);border-bottom:none;box-shadow:0 -20px 60px #00000038;overflow:hidden;background:#000;transform:translateY(6px)}
-.telefon img{display:block;width:100%}
+.telefon{position:relative;width:min(300px,78vw);border-radius:40px 40px 0 0;border:12px solid var(--koyu);border-bottom:none;box-shadow:0 -20px 60px #00000038;overflow:hidden;background:#000;transform:translateY(6px)}
+.telefon > img{display:block;width:100%}
+
+/* === AÇILIŞ ANİMASYONU (tam ekran) ===
+   Site, uygulamanın kendi açılışıyla açılıyor: araba soldan girer, saat
+   iner, ibreler döner ve tam 10:10'da durur (logodaki poz), zil çalar,
+   saat sepetin içine düşer, yazı belirir. Zaman çizelgesi, ağırlıklar
+   ve eğriler splash_screen.dart'tan birebir; parçalar uygulamanın kendi
+   görselleri.
+
+   Ziyaretçiyi esir almamak için: tıklayınca geçilir (uygulamada da
+   ekrana dokununca atlanıyor), oturumda bir kez oynar ve "hareketi
+   azalt" açıksa hiç oynamaz. */
+.acilis{position:fixed;inset:0;z-index:999;background:#0A0A0F;
+  display:grid;grid-template-rows:1fr auto auto 1fr;justify-items:center;
+  align-items:center;cursor:pointer;transition:opacity .55s ease}
+.acilis.bitti{opacity:0;pointer-events:none}
+.acilis[hidden]{display:none}
+body.acilis-acik{overflow:hidden}
+.acilis-glow{position:absolute;inset:0;
+  background:radial-gradient(circle at 50% 42%,
+    rgba(255,138,25,.34) 0%, rgba(255,78,44,.11) 42%, transparent 100%);
+  opacity:0}
+.sahne{grid-row:2;position:relative;width:210px;height:180px;
+  --olcek:calc(min(430px,68vw) / 210);
+  transform:scale(var(--olcek));transform-origin:center bottom}
+/* Saat ARABADAN ÖNCE: arkada kalsın ki düşünce sepetin ön paneli
+   gövdesini örtsün, gerçekten "içine girmiş" görünsün. */
+.sahne .saat{position:absolute;top:0;left:84px;width:58px;height:58px;
+  display:grid;place-items:center;opacity:0}
+.sahne .saat > *{grid-area:1/1}
+.sahne .kadran{width:58px;display:block}
+.sahne .ibre{display:block;width:3.4px;background:#F9F2D8;border-radius:2px}
+.sahne .akrep{height:15px}
+.sahne .yelkovan{height:21px}
+.sahne .vida{width:7px;height:7px;border-radius:50%;background:#F9F2D8;
+  display:block;z-index:2}
+.sahne .isiklar{position:absolute;width:0;height:0;left:29px;top:29px;opacity:0}
+.sahne .isiklar i{position:absolute;width:13px;height:3px;
+  left:-6.5px;top:-1.5px;border-radius:2px;background:#FFC501}
+.sahne .araba{position:absolute;bottom:0;left:20px;width:158px;display:block}
+.acilis-yazi{grid-row:3;text-align:center;opacity:0;margin-top:40px}
+.acilis-yazi .ad{display:block;font-size:clamp(24px,5.4vw,32px);font-weight:900;
+  letter-spacing:6px;
+  background:linear-gradient(90deg,#FFC501,#FF8A19,#FF4E2C);
+  -webkit-background-clip:text;background-clip:text;color:transparent}
+.acilis-yazi .slogan{display:block;margin-top:9px;font-size:12px;font-weight:600;
+  letter-spacing:4px;color:#F9F2D8}
+.acilis-atla{position:absolute;bottom:34px;left:0;right:0;text-align:center;
+  font-size:12.5px;letter-spacing:1.6px;color:#f9f2d859}
+/* Hareketi azalt: açılış hiç oynamaz, site doğrudan gelir. */
+@media (prefers-reduced-motion: reduce){
+  .acilis{display:none}
+}
 
 /* BÖLÜMLER */
 section{padding:88px 0}
@@ -255,6 +311,28 @@ footer .ince{font-size:13px;margin-top:14px}
 </style>
 </head>
 <body>
+<!-- ACILIS: site uygulamanin kendi acilis animasyonuyla aciliyor.
+     Bir kez oynar (oturum boyunca), tiklayinca atlanir -- uygulamada da
+     ekrana dokununca atlaniyor. -->
+<div class="acilis" id="acilis" role="presentation">
+  <div class="acilis-glow"></div>
+  <div class="sahne">
+    <div class="saat">
+      <div class="isiklar"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+      <img class="kadran" src="splash_kadran.png" alt="">
+      <i class="ibre akrep"></i>
+      <i class="ibre yelkovan"></i>
+      <b class="vida"></b>
+    </div>
+    <img class="araba" src="splash_sepet.png" alt="">
+  </div>
+  <div class="acilis-yazi">
+    <span class="ad">ALDIM MEZAT</span>
+    <span class="slogan">YENİ NESİL MEZAT</span>
+  </div>
+  <span class="acilis-atla">Geçmek için dokun</span>
+</div>
+
 <header>
   <div class="kap ust">
     <a class="marka" href="#"><img src="logo.png" alt="ALDIM logosu">ALDIM</a>
@@ -582,11 +660,14 @@ footer .ince{font-size:13px;margin-top:14px}
           <h3>Mezatı kazanan almakla yükümlü</h3>
           <ul>
             <li><span class="im">🤝</span><span><b>Teklif bir taahhüttür</b>
-              Kazanan alıcı ürünü almakla yükümlüdür. "Kazandım ama
-              vazgeçtim" diye satıcıyı ortada bırakmak mümkün değil.</span></li>
-            <li><span class="im">🚫</span><span><b>Kurala uymayana kademeli
-              yaptırım</b> Önce 7 gün, tekrarında 30 gün mezata giriş
-              yasağı; ısrar edilirse hesap donar.</span></li>
+              Mezat kapanınca ürün kazananın sepetine mezat fiyatından
+              düşer ve 24 saatlik ödeme süresi başlar. "Kazandım ama
+              vazgeçtim" diye satıcıyı ortada bırakmak yok.</span></li>
+            <li><span class="im">🚫</span><span><b>Ödemeyene kademeli
+              yaptırım</b> Süre dolarsa sipariş iptal olur ve hesaba
+              yasak gelir: önce 7 gün, tekrarında 30 gün mezata giriş
+              yok; ısrar edilirse hesap donar. Borcu olan yeni mezata
+              teklif veremez.</span></li>
             <li><span class="im">🧾</span><span><b>Şişirme teklif yok</b>
               Teklif tutarını uygulama değil sunucu belirler. Kimse kendi
               mezatına teklif veremez, üst üste teklif veremez.</span></li>
@@ -706,6 +787,196 @@ footer .ince{font-size:13px;margin-top:14px}
   }
   ciz();
   setInterval(ciz, 1000);
+})();
+
+/* =====================================================================
+   ACILIS ANIMASYONU -- uygulamadakinin birebir web karsiligi.
+   Zaman cizelgesi, agirliklar ve egriler splash_screen.dart'tan
+   alindi; toplam sure 4600 ms.
+
+   Neden CSS keyframe degil de rAF: Flutter'daki TweenSequence
+   agirliklari (18/4/4/45/5/24 gibi) ile bounceOut ve elasticOut
+   egrileri keyframe'e cevrilince tutmuyor. Egriler burada birebir
+   hesaplaniyor, hareket uygulamadaki ile ayni.
+   ===================================================================== */
+(function(){
+  var sahne = document.getElementById('acilis');
+  if (!sahne) return;
+
+  function kapat(){
+    sahne.classList.add('bitti');
+    document.body.classList.remove('acilis-acik');
+    setTimeout(function(){ sahne.hidden = true; }, 600);
+  }
+
+  /* Hareketi azalt açıksa ya da bu oturumda bir kez izlendiyse hiç
+     oynatma: her sayfa açılışında 4,6 saniye beklemek eziyet olur. */
+  var azalt = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var izlendi = false;
+  try { izlendi = sessionStorage.getItem('acilis') === '1'; } catch (e) {}
+  /* Arka planda acilan sekmede requestAnimationFrame CALISMIYOR:
+     animasyon baslamaz, perde de acilmaz ve site kilitli kalir.
+     Sayfa gorunur degilse acilisi hic gostermiyoruz. */
+  if (azalt || izlendi || document.hidden){ sahne.hidden = true; return; }
+  document.body.classList.add('acilis-acik');
+
+  var glow    = sahne.querySelector('.acilis-glow'),
+      saat    = sahne.querySelector('.saat'),
+      akrep   = sahne.querySelector('.akrep'),
+      yelkovan= sahne.querySelector('.yelkovan'),
+      isiklar = sahne.querySelector('.isiklar'),
+      araba   = sahne.querySelector('.araba'),
+      yazi    = sahne.querySelector('.acilis-yazi');
+
+  /* --- egriler --- */
+  function bezier(x1,y1,x2,y2){
+    function A(a,b){return 1-3*b+3*a;} function B(a,b){return 3*b-6*a;}
+    function C(a){return 3*a;}
+    function ct(t,a,b){return ((A(a,b)*t+B(a,b))*t+C(a))*t;}
+    function egim(t,a,b){return 3*A(a,b)*t*t+2*B(a,b)*t+C(a);}
+    return function(x){
+      if (x<=0) return 0; if (x>=1) return 1;
+      var t=x, i, d;
+      for (i=0;i<5;i++){ d=egim(t,x1,x2); if(d===0) break;
+        t -= (ct(t,x1,x2)-x)/d; }
+      return ct(t,y1,y2);
+    };
+  }
+  var easeIn      = bezier(.42,0,1,1),
+      easeOut     = bezier(0,0,.58,1),
+      easeInOut   = bezier(.42,0,.58,1),
+      easeOutCubic= bezier(.215,.61,.355,1),
+      easeOutQuart= bezier(.165,.84,.44,1),
+      easeOutBack = bezier(.175,.885,.32,1.275);
+
+  function bounceOut(t){
+    if (t < 1/2.75) return 7.5625*t*t;
+    if (t < 2/2.75){ t -= 1.5/2.75; return 7.5625*t*t + .75; }
+    if (t < 2.5/2.75){ t -= 2.25/2.75; return 7.5625*t*t + .9375; }
+    t -= 2.625/2.75; return 7.5625*t*t + .984375;
+  }
+  /* Flutter ElasticOutCurve, varsayilan period 0.4 */
+  function elasticOut(t){
+    var p = .4;
+    if (t === 0 || t === 1) return t;
+    return Math.pow(2,-10*t)*Math.sin((t-p/4)*(2*Math.PI)/p)+1;
+  }
+  var duz = function(t){ return t; };
+
+  /* Agirlikli tween dizisi -- Flutter TweenSequence ile ayni mantik. */
+  function dizi(parcalar){           // [agirlik, bas, son, egri]
+    var toplam = 0, i;
+    for (i=0;i<parcalar.length;i++) toplam += parcalar[i][0];
+    var sinir = [], birikim = 0;
+    for (i=0;i<parcalar.length;i++){
+      birikim += parcalar[i][0]/toplam; sinir.push(birikim);
+    }
+    return function(t){
+      var bas = 0;
+      for (var j=0;j<parcalar.length;j++){
+        if (t <= sinir[j] || j === parcalar.length-1){
+          var uz = sinir[j]-bas;
+          var y = uz > 0 ? Math.min(Math.max((t-bas)/uz,0),1) : 1;
+          var p = parcalar[j];
+          return p[1] + (p[2]-p[1])*(p[3]||duz)(y);
+        }
+        bas = sinir[j];
+      }
+      return 0;
+    };
+  }
+  /* Belirli araliga sikistirilmis tek egri (Flutter Interval). */
+  function aralik(a,b,egri){
+    return function(t){
+      var y = Math.min(Math.max((t-a)/(b-a),0),1);
+      return (egri||duz)(y);
+    };
+  }
+
+  var SURE = 4600;
+  var fNabiz = dizi([[45,0,1,easeOut],[30,1,.72,easeInOut],[25,.72,.95,easeInOut]]);
+  var fArabaX= dizi([[18,-300,0,easeOutCubic],[82,0,0]]);
+  var fArabaY= dizi([[18,0,0],[4,0,-8,easeOut],[4,-8,0,bounceOut],[45,0,0],
+                     [5,0,6,easeOut],[24,6,0,elasticOut]]);
+  var fSaatY = dizi([[17,-150,-150],[13,-150,-40,easeOutBack],[36,-40,-40],
+                     [5,-40,44,easeIn],[5,44,38,easeOut],[24,38,38]]);
+  var fSaatOp= aralik(.17,.30,easeIn);
+  var fAkrep = aralik(.17,.50,easeOutQuart);
+  var fYelk  = aralik(.17,.50,easeOutQuart);
+  var fZil   = dizi([[50,0,0],[3,0,-7],[3,-7,6.5],[3,6.5,-5.5],[3,-5.5,4],
+                     [3,4,-2],[2,-2,0,easeOut],[33,0,0]]);
+  var fIsik  = dizi([[50,0,0],[4,0,1],[5,1,.3],[4,.3,1],[4,1,0],[33,0,0]]);
+  var fYazi  = aralik(.78,.90,easeOut);
+
+  /* Zil isinlari: acilar ve yaricap uygulamadakiyle ayni. */
+  var acilar = [-90,-130,-50,-160,-20,-110];
+  [].forEach.call(isiklar.children, function(i, k){
+    i.style.transform = 'rotate(' + acilar[k] + 'deg) translateX(' +
+                        (k === 5 ? 52 : 40) + 'px)';
+  });
+
+  var baslangic = null, calisiyor = false, id = 0;
+
+  function kare(zaman){
+    if (baslangic === null) baslangic = zaman;
+    var t = Math.min((zaman - baslangic) / SURE, 1);
+
+    glow.style.opacity = fNabiz(t);
+    araba.style.transform = 'translate(' + fArabaX(t).toFixed(2) + 'px,' +
+                                           fArabaY(t).toFixed(2) + 'px)';
+    saat.style.opacity   = fSaatOp(t);
+    saat.style.transform = 'translateY(' + fSaatY(t).toFixed(2) + 'px) rotate(' +
+                           fZil(t).toFixed(2) + 'deg)';
+    /* Ibrenin donme merkezi DIBI: once yariboyu yukari otele, sonra dondur. */
+    akrep.style.transform    = 'rotate(' + (fAkrep(t)*1025).toFixed(2) +
+                               'deg) translateY(-7.5px)';
+    yelkovan.style.transform = 'rotate(' + (fYelk(t)*2220).toFixed(2) +
+                               'deg) translateY(-10.5px)';
+    isiklar.style.opacity = fIsik(t);
+    yazi.style.opacity    = fYazi(t);
+
+    if (t < 1){ id = requestAnimationFrame(kare); return; }
+    /* Bitti: uygulamadaki gibi ana ekrana gecsin. */
+    calisiyor = false;
+    setTimeout(kapat, 650);
+  }
+
+  function oynat(){
+    if (calisiyor) return;
+    calisiyor = true;
+    cancelAnimationFrame(id);
+    sahne.classList.remove('bitti');
+    baslangic = null;
+    id = requestAnimationFrame(kare);
+  }
+
+  /* Sabirsiz ziyaretci beklemesin: tiklayinca/tusa basinca atlanir.
+     Uygulamada da ekrana dokununca aciliş atlaniyor. */
+  function atla(){ cancelAnimationFrame(id); calisiyor = false; kapat(); }
+  sahne.addEventListener('click', atla);
+  document.addEventListener('keydown', function(e){
+    if (!sahne.hidden && (e.key === 'Escape' || e.key === ' ')) atla();
+  });
+
+  /* Gorseller inmeden baslama: yoksa saat ve sepet yarisindan sonra
+     beliriyor. Gec kalirsa da bekletme -- en fazla 1,2 saniye. */
+  var kalan = 2, basladi = false;
+  function belkiOynat(){
+    if (basladi) return;
+    basladi = true;
+    try { sessionStorage.setItem('acilis', '1'); } catch (e) {}
+    oynat();
+  }
+  [sahne.querySelector('.kadran'), araba].forEach(function(g){
+    if (g.complete) { if (--kalan === 0) belkiOynat(); }
+    else g.addEventListener('load', function(){ if (--kalan === 0) belkiOynat(); });
+  });
+  setTimeout(belkiOynat, 1200);
+
+  /* SON EMNIYET: gorsel inmezse, sekme arka plana atilirsa ya da
+     animasyon herhangi bir sebeple takilirsa perde yine de kalksin.
+     Ziyaretci hicbir kosulda siyah ekranda kalmamali. */
+  setTimeout(function(){ if (!sahne.hidden) kapat(); }, 7000);
 })();
 </script>
 </body>
